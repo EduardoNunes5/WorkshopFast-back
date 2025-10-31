@@ -17,7 +17,6 @@ class WorkshopServiceImpl implements WorkshopService {
         this.repository = repository;
     }
 
-
     @Override
     @Transactional
     public SaveWorkshopResponseDto create(SaveWorkshopRequestDto requestDto) {

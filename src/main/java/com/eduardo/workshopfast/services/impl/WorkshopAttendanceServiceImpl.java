@@ -2,13 +2,17 @@ package com.eduardo.workshopfast.services.impl;
 
 import com.eduardo.workshopfast.dto.workshop_attendance.SaveWorkshopAttendanceRequestDto;
 import com.eduardo.workshopfast.dto.workshop_attendance.SaveWorkshopAttendanceResponseDto;
+import com.eduardo.workshopfast.dto.workshop_attendance.UpdateWorkshopAttendanceResponseDto;
+import com.eduardo.workshopfast.entities.Collaborator;
 import com.eduardo.workshopfast.entities.Workshop;
 import com.eduardo.workshopfast.entities.WorkshopAttendance;
 import com.eduardo.workshopfast.exceptions.ResourceAlreadyExistsException;
 import com.eduardo.workshopfast.exceptions.ResourceNotFoundException;
 import com.eduardo.workshopfast.repositories.WorkshopAttendanceRepository;
+import com.eduardo.workshopfast.services.CollaboratorService;
 import com.eduardo.workshopfast.services.WorkshopAttendanceService;
 import com.eduardo.workshopfast.services.WorkshopService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,16 +21,18 @@ class WorkshopAttendanceServiceImpl implements WorkshopAttendanceService {
 
     private final WorkshopAttendanceRepository repository;
     private final WorkshopService workshopService;
+    private final CollaboratorService collaboratorService;
 
-    public WorkshopAttendanceServiceImpl(WorkshopAttendanceRepository repository, WorkshopService workshopService) {
+    public WorkshopAttendanceServiceImpl(WorkshopAttendanceRepository repository, WorkshopService workshopService, CollaboratorService collaboratorService) {
         this.repository = repository;
         this.workshopService = workshopService;
+        this.collaboratorService = collaboratorService;
     }
 
     @Override
     @Transactional
     public SaveWorkshopAttendanceResponseDto create(SaveWorkshopAttendanceRequestDto workshopAttendanceRequestDto) {
-        if(repository.existsByWorkshop_id(workshopAttendanceRequestDto.workshopId())) {
+        if(repository.existsByWorkshopId(workshopAttendanceRequestDto.workshopId())) {
             throw new ResourceAlreadyExistsException(String.format("An attendance list already exists for the workshop with id: %d", workshopAttendanceRequestDto.workshopId()));
         }
 
@@ -35,9 +41,41 @@ class WorkshopAttendanceServiceImpl implements WorkshopAttendanceService {
             WorkshopAttendance newWorkshopAttendance = new WorkshopAttendance(workshop);
             newWorkshopAttendance = repository.save(newWorkshopAttendance);
             return new SaveWorkshopAttendanceResponseDto(newWorkshopAttendance);
-        } catch (Exception notFound) {
-            System.out.println("Caí aqui");
+        } catch (EntityNotFoundException notFound) {
             throw new ResourceNotFoundException(String.format("Workshop with id: %d not found", workshopAttendanceRequestDto.workshopId()));
         }
+    }
+
+    @Override
+    @Transactional
+    public UpdateWorkshopAttendanceResponseDto addCollaborator(Long workshopId, Long workshopAttendanceId, Long collaboratorId) {
+        WorkshopAttendance workshopAttendance = repository.findByIdAndWorkshopId(workshopAttendanceId, workshopId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Workshop attendance list with id: %d from workshop id: %d not found", workshopAttendanceId, workshopId)));
+
+        if(repository.existsCollaboratorInWorkshopAttendance(workshopAttendanceId, collaboratorId)) {
+            throw new ResourceAlreadyExistsException(String.format("Collaborator with id: %d already present in workshop attendance", collaboratorId));
+        }
+
+        Collaborator collaborator = collaboratorService.findById(collaboratorId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Collaborator with id: %d does not exist", collaboratorId)));
+
+        workshopAttendance.addCollaborator(collaborator);
+
+        return new UpdateWorkshopAttendanceResponseDto(workshopAttendanceId, workshopId, collaboratorId);
+    }
+
+    @Override
+    @Transactional
+    public void removeCollaborator(Long workshopAttendanceId, Long collaboratorId) {
+        WorkshopAttendance workshopAttendance = repository.findById(workshopAttendanceId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Workshop attendance list with id: %d not found", workshopAttendanceId)));
+
+        if(!repository.existsCollaboratorInWorkshopAttendance(workshopAttendanceId, collaboratorId)) {
+            throw new ResourceNotFoundException(String.format("Collaborator with id: %d not found or not present in workshop", collaboratorId));
+        }
+
+        Collaborator collaborator = collaboratorService.getReferenceById(collaboratorId);
+
+        workshopAttendance.removeCollaborator(collaborator);
     }
 }
