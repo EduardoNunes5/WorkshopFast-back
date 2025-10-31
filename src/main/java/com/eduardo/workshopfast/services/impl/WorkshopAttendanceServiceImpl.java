@@ -92,7 +92,6 @@ class WorkshopAttendanceServiceImpl implements WorkshopAttendanceService {
 
     @Override
     public List<WorkshopWithCollaboratorDto> findWorkshopWithCollaboratorsByFilters(WorkshopFilterDto filter) {
-        System.out.println("wh name: " + filter.workshopName());
         List<Workshop> workshops = workshopService.findByFilters(filter);
         return workshops.stream().map(WorkshopWithCollaboratorDto::new).toList();
     }
