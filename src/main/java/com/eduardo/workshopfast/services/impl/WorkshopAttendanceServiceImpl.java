@@ -12,6 +12,7 @@ import com.eduardo.workshopfast.repositories.WorkshopAttendanceRepository;
 import com.eduardo.workshopfast.services.CollaboratorService;
 import com.eduardo.workshopfast.services.WorkshopAttendanceService;
 import com.eduardo.workshopfast.services.WorkshopService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,7 @@ class WorkshopAttendanceServiceImpl implements WorkshopAttendanceService {
             WorkshopAttendance newWorkshopAttendance = new WorkshopAttendance(workshop);
             newWorkshopAttendance = repository.save(newWorkshopAttendance);
             return new SaveWorkshopAttendanceResponseDto(newWorkshopAttendance);
-        } catch (Exception notFound) {
+        } catch (EntityNotFoundException notFound) {
             throw new ResourceNotFoundException(String.format("Workshop with id: %d not found", workshopAttendanceRequestDto.workshopId()));
         }
     }
