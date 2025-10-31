@@ -1,9 +1,9 @@
 package com.eduardo.workshopfast.services.impl;
 
 import com.eduardo.workshopfast.dto.collaborator.CollaboratorDto;
-import com.eduardo.workshopfast.dto.workshop_attendance.SaveWorkshopAttendanceRequestDto;
-import com.eduardo.workshopfast.dto.workshop_attendance.SaveWorkshopAttendanceResponseDto;
-import com.eduardo.workshopfast.dto.workshop_attendance.UpdateWorkshopAttendanceResponseDto;
+import com.eduardo.workshopfast.dto.workshop.WorkshopFilterDto;
+import com.eduardo.workshopfast.dto.workshop.WorkshopWithCollaboratorDto;
+import com.eduardo.workshopfast.dto.workshop_attendance.*;
 import com.eduardo.workshopfast.entities.Collaborator;
 import com.eduardo.workshopfast.entities.Workshop;
 import com.eduardo.workshopfast.entities.WorkshopAttendance;
@@ -88,5 +88,12 @@ class WorkshopAttendanceServiceImpl implements WorkshopAttendanceService {
         Sort sort = Sort.by(Sort.Direction.ASC, "name");
         final List<Collaborator> collaborators =  collaboratorService.findAllSortedWithRelatedData(sort);
         return collaborators.stream().map(CollaboratorDto::new).toList();
+    }
+
+    @Override
+    public List<WorkshopWithCollaboratorDto> findWorkshopWithCollaboratorsByFilters(WorkshopFilterDto filter) {
+        System.out.println("wh name: " + filter.workshopName());
+        List<Workshop> workshops = workshopService.findByFilters(filter);
+        return workshops.stream().map(WorkshopWithCollaboratorDto::new).toList();
     }
 }
