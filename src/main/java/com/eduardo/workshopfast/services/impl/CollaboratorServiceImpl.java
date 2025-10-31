@@ -8,6 +8,8 @@ import com.eduardo.workshopfast.services.CollaboratorService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 class CollaboratorServiceImpl implements CollaboratorService {
 
@@ -28,5 +30,10 @@ class CollaboratorServiceImpl implements CollaboratorService {
     @Override
     public Collaborator getReferenceById(Long id) {
         return repository.getReferenceById(id);
+    }
+
+    @Override
+    public Optional<Collaborator> findById(Long id) {
+        return repository.findById(id);
     }
 }

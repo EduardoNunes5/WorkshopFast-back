@@ -48,14 +48,16 @@ class WorkshopAttendanceServiceImpl implements WorkshopAttendanceService {
     @Override
     @Transactional
     public UpdateWorkshopAttendanceResponseDto addCollaborator(Long workshopId, Long workshopAttendanceId, Long collaboratorId) {
-        WorkshopAttendance workshopAttendance = repository.findByIdAndWorkshopId(workshopId, workshopAttendanceId)
+        WorkshopAttendance workshopAttendance = repository.findByIdAndWorkshopId(workshopAttendanceId, workshopId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Workshop attendance list with id: %d from workshop id: %d not found", workshopAttendanceId, workshopId)));
 
         if(repository.existsCollaboratorInWorkshopAttendance(workshopAttendanceId, collaboratorId)) {
             throw new ResourceAlreadyExistsException(String.format("Collaborator with id: %d already present in workshop attendance", collaboratorId));
         }
 
-        Collaborator collaborator = collaboratorService.getReferenceById(collaboratorId);
+        Collaborator collaborator = collaboratorService.findById(collaboratorId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Collaborator with id: %d does not exist", collaboratorId)));
+
         workshopAttendance.addCollaborator(collaborator);
 
         return new UpdateWorkshopAttendanceResponseDto(workshopAttendanceId, workshopId, collaboratorId);
