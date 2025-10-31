@@ -2,7 +2,9 @@ package com.eduardo.workshopfast.entities;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Collaborator {
@@ -12,6 +14,9 @@ public class Collaborator {
     private Long id;
 
     private String name;
+
+    @ManyToMany(mappedBy = "collaborators", fetch = FetchType.LAZY)
+    private Set<WorkshopAttendance> workshops = new HashSet<>();
 
     public Collaborator() {
     }
@@ -34,6 +39,10 @@ public class Collaborator {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<WorkshopAttendance> getWorkshops() {
+        return workshops;
     }
 
     @Override

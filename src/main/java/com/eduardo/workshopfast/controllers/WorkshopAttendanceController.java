@@ -1,5 +1,6 @@
 package com.eduardo.workshopfast.controllers;
 
+import com.eduardo.workshopfast.dto.collaborator.CollaboratorDto;
 import com.eduardo.workshopfast.dto.workshop_attendance.UpdateWorkshopAttendanceRequestDto;
 import com.eduardo.workshopfast.dto.workshop_attendance.SaveWorkshopAttendanceRequestDto;
 import com.eduardo.workshopfast.dto.workshop_attendance.SaveWorkshopAttendanceResponseDto;
@@ -8,6 +9,8 @@ import com.eduardo.workshopfast.services.WorkshopAttendanceService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -33,6 +36,11 @@ public class WorkshopAttendanceController {
     @DeleteMapping("/atas/{id}/colaboradores/{collaboratorId}")
     public void removeCollaborator(@PathVariable Long id, @PathVariable Long collaboratorId) {
         service.removeCollaborator(id, collaboratorId);
+    }
+
+    @GetMapping("/atas")
+    public List<CollaboratorDto> findCollaboratorsWithWorkshopAttendanceSortedByName() {
+        return service.findCollaboratorsAndWorkshopAttendanceSortedByName();
     }
 
 }

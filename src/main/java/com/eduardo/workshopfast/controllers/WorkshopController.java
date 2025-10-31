@@ -1,7 +1,7 @@
 package com.eduardo.workshopfast.controllers;
 
 import com.eduardo.workshopfast.dto.workshop.SaveWorkshopRequestDto;
-import com.eduardo.workshopfast.dto.workshop.SaveWorkshopResponseDto;
+import com.eduardo.workshopfast.dto.workshop.WorkshopDto;
 import com.eduardo.workshopfast.services.WorkshopService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class WorkshopController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SaveWorkshopResponseDto createWorkshop(@RequestBody @Valid SaveWorkshopRequestDto workshopRequestDto) {
+    public WorkshopDto createWorkshop(@RequestBody @Valid SaveWorkshopRequestDto workshopRequestDto) {
         return workshopService.create(workshopRequestDto);
     }
 }
