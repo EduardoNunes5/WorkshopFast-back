@@ -54,7 +54,11 @@ public class WorkshopAttendance {
         return collaborators;
     }
 
-    public void AddCollaborator(Collaborator collaborator) {
+    public void addCollaborator(Collaborator collaborator) {
         this.collaborators.add(collaborator);
+    }
+
+    public void removeCollaborator(Collaborator collaborator) {
+        this.collaborators.remove(collaborator);
     }
 }
