@@ -1,9 +1,6 @@
 package com.eduardo.workshopfast.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -20,6 +17,9 @@ public class Workshop {
     private LocalDateTime realizationDate;
 
     private String description;
+
+    @OneToOne(mappedBy = "workshop")
+    private WorkshopAttendance workshopAttendance;
 
     public Workshop() {
     }
@@ -60,6 +60,14 @@ public class Workshop {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public WorkshopAttendance getWorkshopAttendance() {
+        return workshopAttendance;
+    }
+
+    public void setWorkshopAttendance(WorkshopAttendance workshopAttendance) {
+        this.workshopAttendance = workshopAttendance;
     }
 
     @Override
