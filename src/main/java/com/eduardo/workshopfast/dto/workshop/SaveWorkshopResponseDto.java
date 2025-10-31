@@ -1,4 +1,4 @@
-package com.eduardo.workshopfast.dto;
+package com.eduardo.workshopfast.dto.workshop;
 
 import com.eduardo.workshopfast.entities.Workshop;
 import com.fasterxml.jackson.annotation.JsonFormat;

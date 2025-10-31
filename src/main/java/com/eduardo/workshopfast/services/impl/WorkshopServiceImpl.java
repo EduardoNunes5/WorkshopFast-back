@@ -1,7 +1,7 @@
 package com.eduardo.workshopfast.services.impl;
 
-import com.eduardo.workshopfast.dto.SaveWorkshopRequestDto;
-import com.eduardo.workshopfast.dto.SaveWorkshopResponseDto;
+import com.eduardo.workshopfast.dto.workshop.SaveWorkshopRequestDto;
+import com.eduardo.workshopfast.dto.workshop.SaveWorkshopResponseDto;
 import com.eduardo.workshopfast.entities.Workshop;
 import com.eduardo.workshopfast.repositories.WorkshopRepository;
 import com.eduardo.workshopfast.services.WorkshopService;
@@ -24,5 +24,10 @@ class WorkshopServiceImpl implements WorkshopService {
         Workshop newWorkshop = new Workshop(requestDto.name(), requestDto.realizationDate(), requestDto.description());
         newWorkshop = repository.save(newWorkshop);
         return new SaveWorkshopResponseDto(newWorkshop);
+    }
+
+    @Override
+    public Workshop getReferenceById(Long id) {
+        return repository.getReferenceById(id);
     }
 }

@@ -23,12 +23,23 @@ public class WorkshopAttendance {
     )
     private Set<Collaborator> collaborators = new HashSet<>();
 
+    public WorkshopAttendance() {
+    }
+
+    public WorkshopAttendance(Workshop workshop) {
+        this.workshop = workshop;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getWorkshopId() {
+        return getWorkshop().getId();
     }
 
     public Workshop getWorkshop() {
