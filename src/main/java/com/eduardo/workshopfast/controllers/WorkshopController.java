@@ -1,7 +1,7 @@
 package com.eduardo.workshopfast.controllers;
 
-import com.eduardo.workshopfast.dto.SaveWorkshopRequestDto;
-import com.eduardo.workshopfast.dto.SaveWorkshopResponseDto;
+import com.eduardo.workshopfast.dto.workshop.SaveWorkshopRequestDto;
+import com.eduardo.workshopfast.dto.workshop.SaveWorkshopResponseDto;
 import com.eduardo.workshopfast.services.WorkshopService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
