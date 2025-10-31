@@ -16,8 +16,7 @@ public class Collaborator {
     public Collaborator() {
     }
 
-    public Collaborator(Long id, String name) {
-        this.id = id;
+    public Collaborator(String name) {
         this.name = name;
     }
 
