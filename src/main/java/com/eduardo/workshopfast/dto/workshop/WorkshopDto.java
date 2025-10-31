@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;
 
-public record SaveWorkshopResponseDto(
+public record WorkshopDto(
         Long id,
         String name,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
@@ -13,7 +13,7 @@ public record SaveWorkshopResponseDto(
         String description
 ) {
 
-    public SaveWorkshopResponseDto(Workshop entity) {
+    public WorkshopDto(Workshop entity) {
         this(
                 entity.getId(),
                 entity.getName(),
