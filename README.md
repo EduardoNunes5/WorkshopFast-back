@@ -22,5 +22,5 @@ Clone o repositório.
 
 (H2):
 1. No arquivo application.properties em: src/main/resources
-   2. substitua os valores da variável `spring.profiles.active=dev` por `spring.profiles.active=test`
+   2. substitua o valor da variável `spring.profiles.active=dev` por `spring.profiles.active=test`
 3. Execute a aplicação
