@@ -34,12 +34,14 @@ public record WorkshopDetailsDto(
         );
     }
 
+    // mapeia os colaboradores para cada ATA existente em um workshop
     private static List<CollaboratorWorkshopAttendanceDto> workshopAttendanceToDto(List<WorkshopAttendance> workshopAttendances) {
         return workshopAttendances.stream()
                 .flatMap(attendance ->
                         attendance.getCollaborators().stream()
                                 .map(collaborator -> new CollaboratorWorkshopAttendanceDto(attendance, collaborator))
                 )
+                .distinct()
                 .toList();
     }
 }
