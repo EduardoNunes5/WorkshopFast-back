@@ -20,6 +20,9 @@ public class Workshop {
 
     private String description;
 
+    // nesse sistema, permiti que um workshop pudesse ter mais de uma ata, pois considerei o seguinte cenário:
+    // se o evento ocorrer o dia inteiro, com diferentes palestras, pode ter diferentes listas de presença ao longo do dia
+    // e posteriormente a tabela de ata pode acrescentar outras informações da lista, por exemplo, horario da lista, foco do workshop naquele momento
     @OneToMany(mappedBy = "workshop", fetch = FetchType.LAZY)
     private List<WorkshopAttendance> workshopAttendances = new ArrayList<>();
 
