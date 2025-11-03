@@ -22,7 +22,8 @@ A aplicação foi desenvolvida usando Java 21 com o gerenciador de dependencias 
 
 # O projeto  
 
-O projeto foi implementado seguindo a arquitetura em camadas, foi feito o uso de DTOS para isolar o modelo de domínio do ambiente externo
+O projeto foi implementado seguindo a arquitetura em camadas, foi feito o uso de DTOS para isolar o modelo de domínio do ambiente externo.  
+A autenticação e autorização foi implementada usando spring security com o oauth2-resource-server, utilizando de tokens jwt criptografados.
 
 
 Tecnologias utilizadas:
@@ -32,6 +33,8 @@ Tecnologias utilizadas:
   - web mvc
   - validation
   - jpa
+  - security
+  - oauth2-resource-server
 - Swagger api
 
 
