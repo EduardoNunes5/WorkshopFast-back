@@ -36,9 +36,9 @@ class WorkshopAttendanceServiceImpl implements WorkshopAttendanceService {
     @Override
     @Transactional
     public SaveWorkshopAttendanceResponseDto create(SaveWorkshopAttendanceRequestDto workshopAttendanceRequestDto) {
-        if(repository.existsByWorkshopId(workshopAttendanceRequestDto.workshopId())) {
-            throw new ResourceAlreadyExistsException(String.format("An attendance list already exists for the workshop with id: %d", workshopAttendanceRequestDto.workshopId()));
-        }
+//        if(repository.existsByWorkshopId(workshopAttendanceRequestDto.workshopId())) {
+//            throw new ResourceAlreadyExistsException(String.format("An attendance list already exists for the workshop with id: %d", workshopAttendanceRequestDto.workshopId()));
+//        }
 
         try {
             Workshop workshop = workshopService.getReferenceById(workshopAttendanceRequestDto.workshopId());

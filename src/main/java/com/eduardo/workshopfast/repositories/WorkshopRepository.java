@@ -14,8 +14,8 @@ public interface WorkshopRepository extends JpaRepository<Workshop, Long> {
     @Query(value = """
         SELECT workshop
           FROM Workshop workshop
-          LEFT JOIN FETCH workshop.workshopAttendance workshopAtt
-          LEFT JOIN FETCH workshopAtt.collaborators collaborator
+          LEFT JOIN FETCH workshop.workshopAttendances workshopAtts
+          LEFT JOIN FETCH workshopAtts.collaborators collaborator
          WHERE (:collaboratorName IS NULL OR LOWER(collaborator.name) LIKE CONCAT('%', LOWER(:collaboratorName) ,'%'))
            AND (:realizationDate IS NULL OR workshop.realizationDate = :realizationDate)
            AND (:workshopName IS NULL OR LOWER(workshop.name) LIKE CONCAT('%', LOWER(:workshopName), '%'))

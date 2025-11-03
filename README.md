@@ -24,3 +24,8 @@ Clone o repositório.
 1. No arquivo application.properties em: src/main/resources
    2. substitua o valor da variável `spring.profiles.active=dev` por `spring.profiles.active=test`
 3. Execute a aplicação
+
+
+Documentação Swagger acessível através da rota:
+
+http://localhost:8080/api-docs/swagger-ui/index.html
