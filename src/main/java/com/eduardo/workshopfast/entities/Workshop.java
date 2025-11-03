@@ -3,6 +3,8 @@ package com.eduardo.workshopfast.entities;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,8 +20,8 @@ public class Workshop {
 
     private String description;
 
-    @OneToOne(mappedBy = "workshop")
-    private WorkshopAttendance workshopAttendance;
+    @OneToMany(mappedBy = "workshop", fetch = FetchType.LAZY)
+    private List<WorkshopAttendance> workshopAttendances = new ArrayList<>();
 
     public Workshop() {
     }
@@ -62,12 +64,8 @@ public class Workshop {
         this.description = description;
     }
 
-    public WorkshopAttendance getWorkshopAttendance() {
-        return workshopAttendance;
-    }
-
-    public void setWorkshopAttendance(WorkshopAttendance workshopAttendance) {
-        this.workshopAttendance = workshopAttendance;
+    public List<WorkshopAttendance> getWorkshopAttendances() {
+        return workshopAttendances;
     }
 
     @Override

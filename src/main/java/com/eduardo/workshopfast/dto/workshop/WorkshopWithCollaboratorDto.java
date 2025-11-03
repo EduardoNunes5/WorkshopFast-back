@@ -23,13 +23,16 @@ public record WorkshopWithCollaboratorDto(
                 entity.getName(),
                 entity.getDescription(),
                 entity.getRealizationDate(),
-                entity.getWorkshopAttendance() != null ? workshopAttendanceToDto(entity.getWorkshopAttendance()) : List.of()
+                entity.getWorkshopAttendances() != null ? workshopAttendanceToDto(entity.getWorkshopAttendances()) : List.of()
         );
     }
 
-    private static List<CollaboratorWorkshopAttendanceDto> workshopAttendanceToDto(WorkshopAttendance workshopAttendance) {
-        return workshopAttendance.getCollaborators().stream()
-                .map((collaborator) -> new CollaboratorWorkshopAttendanceDto(workshopAttendance, collaborator))
+    private static List<CollaboratorWorkshopAttendanceDto> workshopAttendanceToDto(List<WorkshopAttendance> workshopAttendances) {
+        return workshopAttendances.stream()
+                .flatMap(attendance ->
+                        attendance.getCollaborators().stream()
+                                .map(collaborator -> new CollaboratorWorkshopAttendanceDto(attendance, collaborator))
+                )
                 .toList();
     }
 }
