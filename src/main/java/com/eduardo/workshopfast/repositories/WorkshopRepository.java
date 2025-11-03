@@ -1,6 +1,7 @@
 package com.eduardo.workshopfast.repositories;
 
 import com.eduardo.workshopfast.entities.Workshop;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,6 +21,7 @@ public interface WorkshopRepository extends JpaRepository<Workshop, Long> {
            AND (:workshopName IS NULL OR LOWER(workshop.name) LIKE CONCAT('%', LOWER(:workshopName), '%'))
     """)
     List<Workshop> findByCollaboratorNameAndRealizationDateAndWorkshopName(@Param("collaboratorName") String collaboratorName,
-                                                                                                       @Param("realizationDate") LocalDateTime realizationDate,
-                                                                                                       @Param("workshopName") String workshopName);
+                                                                           @Param("realizationDate") LocalDateTime realizationDate,
+                                                                           @Param("workshopName") String workshopName,
+                                                                           Sort sort);
 }
