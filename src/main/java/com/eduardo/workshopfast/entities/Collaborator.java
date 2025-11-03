@@ -15,7 +15,7 @@ public class Collaborator {
 
     private String name;
 
-    @ManyToMany(mappedBy = "collaborators", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "collaborators")
     private Set<WorkshopAttendance> workshops = new HashSet<>();
 
     public Collaborator() {
