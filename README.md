@@ -44,6 +44,9 @@ Executando a aplicação:
 
 Clone o repositório.
 
+Existe um arquivo de seed chamado `data.sql` na pasta `src/resources` responsável por inserir colaboradores e workshops no banco de dados. 
+Se desejar, pode comentar os inserts.  
+
 (MySQL):
 
 1. No arquivo application-dev.properties em: src/main/resources 
