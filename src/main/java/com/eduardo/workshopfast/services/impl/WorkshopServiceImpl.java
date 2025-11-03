@@ -2,7 +2,7 @@ package com.eduardo.workshopfast.services.impl;
 
 import com.eduardo.workshopfast.dto.workshop.SaveWorkshopRequestDto;
 import com.eduardo.workshopfast.dto.workshop.WorkshopDto;
-import com.eduardo.workshopfast.dto.workshop.WorkshopFilterDto;
+import com.eduardo.workshopfast.dto.workshop.filter.WorkshopFilterDto;
 import com.eduardo.workshopfast.entities.Workshop;
 import com.eduardo.workshopfast.repositories.WorkshopRepository;
 import com.eduardo.workshopfast.services.WorkshopService;
