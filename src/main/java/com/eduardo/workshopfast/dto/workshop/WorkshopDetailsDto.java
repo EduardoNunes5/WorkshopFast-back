@@ -35,6 +35,7 @@ public record WorkshopDetailsDto(
     }
 
     private static List<CollaboratorWorkshopAttendanceDto> workshopAttendanceToDto(List<WorkshopAttendance> workshopAttendances) {
+        // achatando as listas de presença do workshop para poder retornar uma lista de colaboradores associados a cada uma delas
         return workshopAttendances.stream()
                 .flatMap(attendance ->
                         attendance.getCollaborators().stream()

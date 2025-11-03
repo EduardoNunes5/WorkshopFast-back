@@ -2,6 +2,7 @@ package com.eduardo.workshopfast.services.impl;
 
 import com.eduardo.workshopfast.dto.auth.AuthRequestDto;
 import com.eduardo.workshopfast.dto.auth.AuthResponseDto;
+import com.eduardo.workshopfast.entities.Role;
 import com.eduardo.workshopfast.entities.User;
 import com.eduardo.workshopfast.exceptions.ResourceNotFoundException;
 import com.eduardo.workshopfast.services.AuthenticationService;
@@ -14,9 +15,13 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 class AuthenticationServiceImpl implements AuthenticationService {
+
+    private static final String ROLES_JOIN_DELIMITER = " ";
+    private static final String JWT_ISSUER = "Fast-solucoes";
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
@@ -39,11 +44,17 @@ class AuthenticationServiceImpl implements AuthenticationService {
         var now = Instant.now();
         var expiresIn = 600L;
 
+        var scopes = user.get().getRoles()
+                .stream()
+                .map(Role::getName)
+                .collect(Collectors.joining(ROLES_JOIN_DELIMITER));
+
         var claims = JwtClaimsSet.builder()
-                .issuer("fast-solucoes")
+                .issuer(JWT_ISSUER)
                 .subject(user.get().getId().toString())
                 .expiresAt(now.plusSeconds(expiresIn))
                 .issuedAt(now)
+                .claim("scope", scopes)
                 .build();
 
         var jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
