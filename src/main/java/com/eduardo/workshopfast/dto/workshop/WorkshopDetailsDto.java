@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record WorkshopSummaryDto(
+public record WorkshopDetailsDto(
         @Schema(type = "number", description = "Id do workshop", example = "5")
         Long id,
         @Schema(type = "string", description = "Nome do workshop", example = "APIS com Python - Introdução")
@@ -24,7 +24,7 @@ public record WorkshopSummaryDto(
         List<CollaboratorWorkshopAttendanceDto> collaborators
 ) {
 
-    public WorkshopSummaryDto(Workshop entity) {
+    public WorkshopDetailsDto(Workshop entity) {
         this(
                 entity.getId(),
                 entity.getName(),

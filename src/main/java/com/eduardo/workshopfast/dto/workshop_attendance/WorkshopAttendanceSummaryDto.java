@@ -5,7 +5,8 @@ import com.eduardo.workshopfast.entities.Workshop;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
-public record WorkshopAttendanceSummaryDto(WorkshopDto workshop,
+public record WorkshopAttendanceSummaryDto(@Schema(type = "number", description = "Id da ATA de presença", example = "1")
+                                           WorkshopDto workshop,
                                            @Schema(type = "number", description = "Id da ATA de presença", example = "1")
                                            Long workshopAttendanceId) {
 

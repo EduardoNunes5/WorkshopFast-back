@@ -2,7 +2,7 @@ package com.eduardo.workshopfast.controllers.impl;
 
 import com.eduardo.workshopfast.controllers.CollaboratorController;
 import com.eduardo.workshopfast.dto.collaborator.SaveCollaboratorRequestDto;
-import com.eduardo.workshopfast.dto.collaborator.SaveCollaboratorResponseDto;
+import com.eduardo.workshopfast.dto.collaborator.CollaboratorDto;
 import com.eduardo.workshopfast.services.CollaboratorService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ public class CollaboratorControllerImpl implements CollaboratorController {
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SaveCollaboratorResponseDto create(@RequestBody @Valid SaveCollaboratorRequestDto collaboratorRequestDto) {
+    public CollaboratorDto create(@RequestBody @Valid SaveCollaboratorRequestDto collaboratorRequestDto) {
         return service.create(collaboratorRequestDto);
     }
 }

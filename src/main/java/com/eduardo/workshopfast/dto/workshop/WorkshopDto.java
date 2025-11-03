@@ -12,8 +12,8 @@ public record WorkshopDto(
         @Schema(type = "string", description = "Nome do workshop", example = "APIS com Python - Introdução")
         String name,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss")
+        @Schema(type = "string", description = "Data do workshop", example = "12/12/2025 20:00:00")
         LocalDateTime realizationDate,
-
         @Schema(type = "string", description = "Descrição do workshop", example = "Crie APIS robustas com Python")
         String description
 ) {

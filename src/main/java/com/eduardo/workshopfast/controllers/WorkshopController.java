@@ -1,7 +1,6 @@
 package com.eduardo.workshopfast.controllers;
 
 import com.eduardo.workshopfast.controllers.exceptions.data.ValidationErrorData;
-import com.eduardo.workshopfast.dto.collaborator.SaveCollaboratorResponseDto;
 import com.eduardo.workshopfast.dto.workshop.SaveWorkshopRequestDto;
 import com.eduardo.workshopfast.dto.workshop.WorkshopDto;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,7 +1,7 @@
 package com.eduardo.workshopfast.services.impl;
 
 import com.eduardo.workshopfast.dto.collaborator.SaveCollaboratorRequestDto;
-import com.eduardo.workshopfast.dto.collaborator.SaveCollaboratorResponseDto;
+import com.eduardo.workshopfast.dto.collaborator.CollaboratorDto;
 import com.eduardo.workshopfast.entities.Collaborator;
 import com.eduardo.workshopfast.repositories.CollaboratorRepository;
 import com.eduardo.workshopfast.services.CollaboratorService;
@@ -23,10 +23,10 @@ class CollaboratorServiceImpl implements CollaboratorService {
 
     @Override
     @Transactional
-    public SaveCollaboratorResponseDto create(SaveCollaboratorRequestDto collaboratorRequestDto) {
+    public CollaboratorDto create(SaveCollaboratorRequestDto collaboratorRequestDto) {
         Collaborator savedCollaborator = new Collaborator(collaboratorRequestDto.name());
         savedCollaborator = repository.save(savedCollaborator);
-        return new SaveCollaboratorResponseDto(savedCollaborator);
+        return new CollaboratorDto(savedCollaborator);
     }
 
     @Override

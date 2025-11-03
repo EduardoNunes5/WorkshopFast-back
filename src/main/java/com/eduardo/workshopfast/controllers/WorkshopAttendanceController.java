@@ -2,8 +2,8 @@ package com.eduardo.workshopfast.controllers;
 
 import com.eduardo.workshopfast.controllers.exceptions.data.ErrorMessage;
 import com.eduardo.workshopfast.controllers.exceptions.data.ValidationErrorData;
-import com.eduardo.workshopfast.dto.collaborator.CollaboratorDto;
-import com.eduardo.workshopfast.dto.workshop.WorkshopSummaryDto;
+import com.eduardo.workshopfast.dto.collaborator.CollaboratorDetailsDto;
+import com.eduardo.workshopfast.dto.workshop.WorkshopDetailsDto;
 import com.eduardo.workshopfast.dto.workshop_attendance.SaveWorkshopAttendanceRequestDto;
 import com.eduardo.workshopfast.dto.workshop_attendance.SaveWorkshopAttendanceResponseDto;
 import com.eduardo.workshopfast.dto.workshop_attendance.AddCollaboratorToWorkshopAttendanceRequestDto;
@@ -122,11 +122,11 @@ public interface WorkshopAttendanceController {
                     responseCode = "200",
                     description = "Lista de colaboradores com dados de workshops já participados.",
                     content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = CollaboratorDto.class))
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = CollaboratorDetailsDto.class))
                     }
             ),
     })
-    List<CollaboratorDto> findCollaboratorsWithWorkshopAttendanceSortedByName();
+    List<CollaboratorDetailsDto> findCollaboratorsWithWorkshopAttendanceSortedByName();
 
     @Operation(
             summary = "Retorna uma lista de workshops filtrados pelo nome.",
@@ -137,11 +137,11 @@ public interface WorkshopAttendanceController {
                     responseCode = "200",
                     description = "Lista workshops filtrados pelo nome do workshop com os dados dos colaboradores que participaram.",
                     content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = WorkshopSummaryDto.class))
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = WorkshopDetailsDto.class))
                     }
             ),
     })
-    List<WorkshopSummaryDto> findWorkshopsWithCollaboratorByWorkshopName(String workshopName);
+    List<WorkshopDetailsDto> findWorkshopsWithCollaboratorByWorkshopName(String workshopName);
 
     @Operation(
             summary = "Retorna uma lista de workshops filtrados pela data de realização.",
@@ -152,11 +152,11 @@ public interface WorkshopAttendanceController {
                     responseCode = "200",
                     description = "Lista workshops filtrados pela data de realização com os dados dos colaboradores que participaram.",
                     content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = WorkshopSummaryDto.class))
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = WorkshopDetailsDto.class))
                     }
             ),
     })
-    List<WorkshopSummaryDto> findWorkshopsWithCollaboratorByRealizationDate(LocalDateTime realizationDate);
+    List<WorkshopDetailsDto> findWorkshopsWithCollaboratorByRealizationDate(LocalDateTime realizationDate);
 
     @Operation(
             summary = "Retorna uma lista de workshops filtrados pelo nome do colaborador.",
@@ -167,11 +167,11 @@ public interface WorkshopAttendanceController {
                     responseCode = "200",
                     description = "Lista workshops filtrados pelo nome do colaborador com os dados dos colaboradores que participaram.",
                     content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = WorkshopSummaryDto.class))
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = WorkshopDetailsDto.class))
                     }
             ),
     })
-    List<WorkshopSummaryDto> findWorkshopsWithCollaboratorByCollaboratorName(String collaboratorName);
+    List<WorkshopDetailsDto> findWorkshopsWithCollaboratorByCollaboratorName(String collaboratorName);
 
     @Operation(
             summary = "Retorna uma lista de workshops ordenados pelo nome do workshop.",
@@ -182,9 +182,9 @@ public interface WorkshopAttendanceController {
                     responseCode = "200",
                     description = "Lista workshops ordenados pelo nome do workshop.",
                     content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = WorkshopSummaryDto.class))
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = WorkshopDetailsDto.class))
                     }
             ),
     })
-    List<WorkshopSummaryDto> findWorkshopsWithCollaboratorSortedByName();
+    List<WorkshopDetailsDto> findWorkshopsWithCollaboratorSortedByName();
 }

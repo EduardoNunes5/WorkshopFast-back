@@ -2,7 +2,7 @@ package com.eduardo.workshopfast.controllers;
 
 import com.eduardo.workshopfast.controllers.exceptions.data.ValidationErrorData;
 import com.eduardo.workshopfast.dto.collaborator.SaveCollaboratorRequestDto;
-import com.eduardo.workshopfast.dto.collaborator.SaveCollaboratorResponseDto;
+import com.eduardo.workshopfast.dto.collaborator.CollaboratorDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,7 +18,7 @@ public interface CollaboratorController {
                     description = "Colaborador registrado com sucesso.",
                     content = {
                             @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = SaveCollaboratorResponseDto.class)),
+                            schema = @Schema(implementation = CollaboratorDto.class)),
                     }
             ),
             @ApiResponse(
@@ -30,5 +30,5 @@ public interface CollaboratorController {
                     }
             ),
     })
-    SaveCollaboratorResponseDto create(SaveCollaboratorRequestDto collaboratorRequestDto);
+    CollaboratorDto create(SaveCollaboratorRequestDto collaboratorRequestDto);
 }
