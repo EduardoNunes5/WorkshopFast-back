@@ -1,25 +1,34 @@
 package com.eduardo.workshopfast.controllers;
 
+import com.eduardo.workshopfast.controllers.exceptions.data.ValidationErrorData;
 import com.eduardo.workshopfast.dto.collaborator.SaveCollaboratorRequestDto;
 import com.eduardo.workshopfast.dto.collaborator.SaveCollaboratorResponseDto;
-import com.eduardo.workshopfast.services.CollaboratorService;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-@RestController
-@RequestMapping(value = "/api/colaboradores")
-public class CollaboratorController {
+public interface CollaboratorController {
 
-    private final CollaboratorService service;
-
-    public CollaboratorController(CollaboratorService service) {
-        this.service = service;
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public SaveCollaboratorResponseDto create(@RequestBody @Valid SaveCollaboratorRequestDto collaboratorRequestDto) {
-        return service.create(collaboratorRequestDto);
-    }
+    @Operation(summary = "Creates a new collaborator")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Collaborator registered successfully",
+                    content = {
+                            @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = SaveCollaboratorResponseDto.class)),
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Invalid data has been passed.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ValidationErrorData.class)),
+                    }
+            ),
+    })
+    SaveCollaboratorResponseDto create(SaveCollaboratorRequestDto collaboratorRequestDto);
 }
