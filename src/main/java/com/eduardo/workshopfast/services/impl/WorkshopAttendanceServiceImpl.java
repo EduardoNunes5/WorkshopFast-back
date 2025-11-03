@@ -1,8 +1,8 @@
 package com.eduardo.workshopfast.services.impl;
 
-import com.eduardo.workshopfast.dto.collaborator.CollaboratorDto;
+import com.eduardo.workshopfast.dto.collaborator.CollaboratorDetailsDto;
 import com.eduardo.workshopfast.dto.workshop.WorkshopFilterDto;
-import com.eduardo.workshopfast.dto.workshop.WorkshopWithCollaboratorDto;
+import com.eduardo.workshopfast.dto.workshop.WorkshopDetailsDto;
 import com.eduardo.workshopfast.dto.workshop_attendance.*;
 import com.eduardo.workshopfast.entities.Collaborator;
 import com.eduardo.workshopfast.entities.Workshop;
@@ -36,10 +36,6 @@ class WorkshopAttendanceServiceImpl implements WorkshopAttendanceService {
     @Override
     @Transactional
     public SaveWorkshopAttendanceResponseDto create(SaveWorkshopAttendanceRequestDto workshopAttendanceRequestDto) {
-//        if(repository.existsByWorkshopId(workshopAttendanceRequestDto.workshopId())) {
-//            throw new ResourceAlreadyExistsException(String.format("An attendance list already exists for the workshop with id: %d", workshopAttendanceRequestDto.workshopId()));
-//        }
-
         try {
             Workshop workshop = workshopService.getReferenceById(workshopAttendanceRequestDto.workshopId());
             WorkshopAttendance newWorkshopAttendance = new WorkshopAttendance(workshop);
@@ -52,7 +48,7 @@ class WorkshopAttendanceServiceImpl implements WorkshopAttendanceService {
 
     @Override
     @Transactional
-    public UpdateWorkshopAttendanceResponseDto addCollaborator(Long workshopId, Long workshopAttendanceId, Long collaboratorId) {
+    public AddCollaboratorToWorkshopAttendanceResponseDto addCollaborator(Long workshopId, Long workshopAttendanceId, Long collaboratorId) {
         WorkshopAttendance workshopAttendance = repository.findByIdAndWorkshopId(workshopAttendanceId, workshopId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Workshop attendance list with id: %d from workshop id: %d not found", workshopAttendanceId, workshopId)));
 
@@ -65,12 +61,12 @@ class WorkshopAttendanceServiceImpl implements WorkshopAttendanceService {
 
         workshopAttendance.addCollaborator(collaborator);
 
-        return new UpdateWorkshopAttendanceResponseDto(workshopAttendanceId, workshopId, collaboratorId);
+        return new AddCollaboratorToWorkshopAttendanceResponseDto(workshopAttendanceId, workshopId, collaboratorId);
     }
 
     @Override
     @Transactional
-    public void removeCollaborator(Long workshopAttendanceId, Long collaboratorId) {
+    public void removeCollaboratorById(Long workshopAttendanceId, Long collaboratorId) {
         WorkshopAttendance workshopAttendance = repository.findById(workshopAttendanceId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Workshop attendance list with id: %d not found", workshopAttendanceId)));
 
@@ -84,15 +80,15 @@ class WorkshopAttendanceServiceImpl implements WorkshopAttendanceService {
     }
 
     @Override
-    public List<CollaboratorDto> findCollaboratorsAndWorkshopAttendanceSortedByName() {
+    public List<CollaboratorDetailsDto> findCollaboratorsAndWorkshopAttendanceSortedByName() {
         Sort sort = Sort.by(Sort.Direction.ASC, "name");
         final List<Collaborator> collaborators =  collaboratorService.findAllSortedWithRelatedData(sort);
-        return collaborators.stream().map(CollaboratorDto::new).toList();
+        return collaborators.stream().map(CollaboratorDetailsDto::new).toList();
     }
 
     @Override
-    public List<WorkshopWithCollaboratorDto> findWorkshopWithCollaboratorsByFilters(WorkshopFilterDto filter) {
+    public List<WorkshopDetailsDto> findWorkshopWithCollaboratorsByFilters(WorkshopFilterDto filter) {
         List<Workshop> workshops = workshopService.findByFilters(filter);
-        return workshops.stream().map(WorkshopWithCollaboratorDto::new).toList();
+        return workshops.stream().map(WorkshopDetailsDto::new).toList();
     }
 }

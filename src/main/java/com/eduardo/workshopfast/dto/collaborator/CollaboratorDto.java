@@ -1,25 +1,19 @@
 package com.eduardo.workshopfast.dto.collaborator;
 
-import com.eduardo.workshopfast.dto.workshop.WorkshopDto;
-import com.eduardo.workshopfast.dto.workshop.WorkshopWithAttendanceIdDto;
 import com.eduardo.workshopfast.entities.Collaborator;
-import com.eduardo.workshopfast.entities.WorkshopAttendance;
-
-import java.util.List;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public record CollaboratorDto(
+        @Schema(type = "number", description = "Id do colaborador", example = "5")
         Long id,
-        String name,
-        List<WorkshopWithAttendanceIdDto> workshops
+        @Schema(type = "string", description = "Nome do colaborador", example = "Júlia")
+        String name
 ) {
 
-    public CollaboratorDto(Collaborator collaborator) {
+    public CollaboratorDto(Collaborator entity) {
         this(
-                collaborator.getId(),
-                collaborator.getName(),
-                collaborator.getWorkshops().stream()
-                        .map(workshopAttendance -> new WorkshopWithAttendanceIdDto(workshopAttendance.getWorkshop(), workshopAttendance.getId()))
-                        .toList()
+                entity.getId(),
+                entity.getName()
         );
     }
 }

@@ -1,25 +1,34 @@
 package com.eduardo.workshopfast.controllers;
 
+import com.eduardo.workshopfast.controllers.exceptions.data.ValidationErrorData;
 import com.eduardo.workshopfast.dto.collaborator.SaveCollaboratorRequestDto;
-import com.eduardo.workshopfast.dto.collaborator.SaveCollaboratorResponseDto;
-import com.eduardo.workshopfast.services.CollaboratorService;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import com.eduardo.workshopfast.dto.collaborator.CollaboratorDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
-@RestController
-@RequestMapping(value = "/api/colaboradores")
-public class CollaboratorController {
+public interface CollaboratorController {
 
-    private final CollaboratorService service;
-
-    public CollaboratorController(CollaboratorService service) {
-        this.service = service;
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public SaveCollaboratorResponseDto create(@RequestBody @Valid SaveCollaboratorRequestDto collaboratorRequestDto) {
-        return service.create(collaboratorRequestDto);
-    }
+    @Operation(summary = "Cria um novo colaborador no sistema")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "Colaborador registrado com sucesso.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CollaboratorDto.class)),
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Algum dado passado foi inválido.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ValidationErrorData.class)),
+                    }
+            ),
+    })
+    CollaboratorDto create(SaveCollaboratorRequestDto collaboratorRequestDto);
 }

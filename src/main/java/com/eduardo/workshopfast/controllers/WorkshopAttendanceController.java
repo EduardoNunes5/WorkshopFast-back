@@ -1,84 +1,190 @@
 package com.eduardo.workshopfast.controllers;
 
-import com.eduardo.workshopfast.dto.collaborator.CollaboratorDto;
-import com.eduardo.workshopfast.dto.workshop.WorkshopFilterDto;
-import com.eduardo.workshopfast.dto.workshop.WorkshopFilterDtoBuilder;
-import com.eduardo.workshopfast.dto.workshop.WorkshopWithCollaboratorDto;
-import com.eduardo.workshopfast.dto.workshop_attendance.*;
-import com.eduardo.workshopfast.services.WorkshopAttendanceService;
-import jakarta.validation.Valid;
-import org.springframework.data.domain.Sort;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import com.eduardo.workshopfast.controllers.exceptions.data.ErrorMessage;
+import com.eduardo.workshopfast.controllers.exceptions.data.ValidationErrorData;
+import com.eduardo.workshopfast.dto.collaborator.CollaboratorDetailsDto;
+import com.eduardo.workshopfast.dto.workshop.WorkshopDetailsDto;
+import com.eduardo.workshopfast.dto.workshop_attendance.SaveWorkshopAttendanceRequestDto;
+import com.eduardo.workshopfast.dto.workshop_attendance.SaveWorkshopAttendanceResponseDto;
+import com.eduardo.workshopfast.dto.workshop_attendance.AddCollaboratorToWorkshopAttendanceRequestDto;
+import com.eduardo.workshopfast.dto.workshop_attendance.AddCollaboratorToWorkshopAttendanceResponseDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@RestController
-@RequestMapping(value = "/api")
-public class WorkshopAttendanceController {
+public interface WorkshopAttendanceController {
 
-    private final WorkshopAttendanceService service;
+    @Operation(
+            summary = "Cria uma nova ATA para um workshop",
+            description = "Nesse sistema, um workshop pode ter várias atas, pois pode ser que haja mais de uma lista de presença para um evento."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "ATA registrada com sucesso.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = SaveWorkshopAttendanceResponseDto.class)),
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Id de workshop informado nulo.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ValidationErrorData.class)),
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Workshop informado não existe",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorMessage.class)),
+                    }
+            ),
+    })
+    SaveWorkshopAttendanceResponseDto create(SaveWorkshopAttendanceRequestDto workshopAttendanceRequest);
 
-    public WorkshopAttendanceController(WorkshopAttendanceService service) {
-        this.service = service;
-    }
+    @Operation(
+            summary = "Adiciona um novo colaborador a uma ATA de presença de um workshop"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Confirmação de presença adicionada com sucesso",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = AddCollaboratorToWorkshopAttendanceResponseDto.class)),
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Requisição inválida. Pode ocorrer pelo colaborador já estar presente na ATA ou dados faltantes.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema =  @Schema(oneOf = { ErrorMessage.class, ValidationErrorData.class })),
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Workshop, ATA ou colaborador não foram encontrados.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorMessage.class)),
+                    }
+            ),
+    })
+    AddCollaboratorToWorkshopAttendanceResponseDto addCollaboratorByWorkshopIdAndWorkshopAttendanceId(Long id, Long workshopAttendanceId, AddCollaboratorToWorkshopAttendanceRequestDto request);
 
-    @PostMapping("/atas")
-    @ResponseStatus(HttpStatus.CREATED)
-    public SaveWorkshopAttendanceResponseDto create(@RequestBody @Valid SaveWorkshopAttendanceRequestDto workshopAttendanceRequest) {
-        return service.create(workshopAttendanceRequest);
-    }
+    @Operation(
+            summary = "Remove um colaborador de uma ATA de presença de um workshop"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Presença removida com sucesso.",
+                    content = {
+                            @Content(mediaType = "application/json")
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Requisição inválida. Algum dado faltando ou colaborador não está presente na lista.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema =  @Schema(oneOf = { ValidationErrorData.class, ErrorMessage.class })),
+                    }
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "ATA ou colaborador não foram encontrados.",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = ErrorMessage.class)),
+                    }
+            ),
+    })
+    void removeCollaboratorWorkshopAttendanceId(Long id, Long collaboratorId);
 
-    @PutMapping("/workshops/{id}/atas/{workshopAttendanceId}")
-    public UpdateWorkshopAttendanceResponseDto addCollaborator(@PathVariable Long id, @PathVariable Long workshopAttendanceId, @RequestBody @Valid UpdateWorkshopAttendanceRequestDto request) {
-        return service.addCollaborator(id, workshopAttendanceId, request.collaboratorId());
-    }
+    @Operation(
+            summary = "Retorna uma lista de todos os colaboradores.",
+            description = "Retorna uma lista de todos os colaboradores em ordem alfabética, com informações de workshops que eles já participaram."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Lista de colaboradores com dados de workshops já participados.",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = CollaboratorDetailsDto.class))
+                    }
+            ),
+    })
+    List<CollaboratorDetailsDto> findCollaboratorsWithWorkshopAttendanceSortedByName();
 
-    @DeleteMapping("/atas/{id}/colaboradores/{collaboratorId}")
-    public void removeCollaborator(@PathVariable Long id, @PathVariable Long collaboratorId) {
-        service.removeCollaborator(id, collaboratorId);
-    }
+    @Operation(
+            summary = "Retorna uma lista de workshops filtrados pelo nome.",
+            description = "Caso um colaborador esteja presente em mais de uma ATA para um mesmo workshop, aparece na lista de colaboradores mais de uma vez."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Lista workshops filtrados pelo nome do workshop com os dados dos colaboradores que participaram.",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = WorkshopDetailsDto.class))
+                    }
+            ),
+    })
+    List<WorkshopDetailsDto> findWorkshopsWithCollaboratorByWorkshopName(String workshopName);
 
-    @GetMapping("/atas")
-    public List<CollaboratorDto> findCollaboratorsWithWorkshopAttendanceSortedByName() {
-        return service.findCollaboratorsAndWorkshopAttendanceSortedByName();
-    }
+    @Operation(
+            summary = "Retorna uma lista de workshops filtrados pela data de realização.",
+            description = "Caso um colaborador esteja presente em mais de uma ATA para um mesmo workshop, aparece na lista de colaboradores mais de uma vez."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Lista workshops filtrados pela data de realização com os dados dos colaboradores que participaram.",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = WorkshopDetailsDto.class))
+                    }
+            ),
+    })
+    List<WorkshopDetailsDto> findWorkshopsWithCollaboratorByRealizationDate(LocalDateTime realizationDate);
 
-    @GetMapping(value = "/atas", params = "workshopNome")
-    public List<WorkshopWithCollaboratorDto> findWorkshopsWithCollaboratorByWorkshopName(@RequestParam(name = "workshopNome") String workshopName) {
-        WorkshopFilterDto filterDto = new WorkshopFilterDtoBuilder()
-                .setWorkshopName(workshopName)
-                .build();
-        return service.findWorkshopWithCollaboratorsByFilters(filterDto);
-    }
+    @Operation(
+            summary = "Retorna uma lista de workshops filtrados pelo nome do colaborador.",
+            description = "Caso um colaborador esteja presente em mais de uma ATA para um mesmo workshop, aparece na lista de colaboradores mais de uma vez."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Lista workshops filtrados pelo nome do colaborador com os dados dos colaboradores que participaram.",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = WorkshopDetailsDto.class))
+                    }
+            ),
+    })
+    List<WorkshopDetailsDto> findWorkshopsWithCollaboratorByCollaboratorName(String collaboratorName);
 
-    @GetMapping(value = "/atas", params = "data")
-    public List<WorkshopWithCollaboratorDto> findWorkshopsWithCollaboratorByRealizationDate(@RequestParam(name = "data") @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime realizationDate) {
-        WorkshopFilterDto filterDto = new WorkshopFilterDtoBuilder()
-                .setRealizationDate(realizationDate)
-                .build();
-        return service.findWorkshopWithCollaboratorsByFilters(filterDto);
-    }
-
-    // Optei por adicionar mais esse endpoint, pois o mockup do front traz um campo a mais para filtrar workshop por nome de colaboradores
-    @GetMapping(value = "/atas", params = "colaboradorNome")
-    public List<WorkshopWithCollaboratorDto> findWorkshopsWithCollaboratorByCollaboratorName(@RequestParam(name = "colaboradorNome") String collaboratorName) {
-        WorkshopFilterDto filterDto = new WorkshopFilterDtoBuilder()
-                .setCollaboratorName(collaboratorName)
-                .build();
-        return service.findWorkshopWithCollaboratorsByFilters(filterDto);
-    }
-
-
-    // decidi criar esse endpoint retornando os workshops ordenados pelo nome para poder popular a tabela do front
-    @GetMapping("/v2/atas")
-    public List<WorkshopWithCollaboratorDto> findWorkshopsWithCollaboratorBySortedByName() {
-        WorkshopFilterDto filterDto = new WorkshopFilterDtoBuilder()
-                .setSort(Sort.by(Sort.Direction.ASC, "name"))
-                .build();
-        return service.findWorkshopWithCollaboratorsByFilters(filterDto);
-    }
-
+    @Operation(
+            summary = "Retorna uma lista de workshops ordenados pelo nome do workshop.",
+            description = "Caso um colaborador esteja presente em mais de uma ATA para um mesmo workshop, ele aparece na lista de colaboradores mais de uma vez."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Lista workshops ordenados pelo nome do workshop.",
+                    content = {
+                            @Content(mediaType = "application/json", schema = @Schema(implementation = WorkshopDetailsDto.class))
+                    }
+            ),
+    })
+    List<WorkshopDetailsDto> findWorkshopsWithCollaboratorSortedByName();
 }
