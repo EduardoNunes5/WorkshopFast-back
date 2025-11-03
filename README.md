@@ -1,12 +1,41 @@
+# Workshop Fast
+
+## O Projeto Projeto
+
+O Workshop fast é uma api rest para auxiliar na gestão de eventos de workshops da empresa Fast.  
+Funcionalidades:
+- Cadastro de workshops
+- Cadastro de colaboradores
+- Cadastro de ata de presença para workshops
+- Adicionar colaboradores a workshops através de ATAS de presença
+- Remover colaboradores das atas de presença de workhops
+- listagem de dados relacionados a workshop, colaboradores e atas
+
+## Ferramentas (requisitos)
+
+
 A aplicação foi desenvolvida usando Java 21 com o gerenciador de dependencias maven.
 
 * Instale o OpenJDK 21 Caso ainda não tenha.
 * Instale MySQL 8.x ou execute uma imagem docker caso deseje utilizar o MySQL como banco de dados
-  * `docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=workshop_fast -e MYSQL_USER=db_user -e MYSQL_PASSWORD=123456 mysql`
+   * `docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -e MYSQL_DATABASE=workshop_fast -e MYSQL_USER=db_user -e MYSQL_PASSWORD=123456 mysql`
+
+# O projeto
+
+O projeto foi implementado seguindo a arquitetura em camadas, foi feito o uso de DTOS para isolar o modelo de domínio do ambiente externo
 
 
+Tecnologias utilizadas:
+- Java 21
+- MySQL 8.X
+- Spring Boot (3.X)
+   - web mvc
+   - validation
+   - jpa
+- Swagger api
 
-Executando a apliacação:  
+
+Executando a aplicação:  
 
 Clone o repositório.
 
