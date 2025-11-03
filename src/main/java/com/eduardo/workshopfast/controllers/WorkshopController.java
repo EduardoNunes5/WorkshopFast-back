@@ -13,11 +13,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 public interface WorkshopController {
 
-    @Operation(summary = "Creates a new workshop")
+    @Operation(summary = "Cria um novo workshop no sistema.")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "201",
-                    description = "Workshop registered successfully",
+                    description = "Workshop criado com sucesso.",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = WorkshopDto.class)),
@@ -25,7 +25,7 @@ public interface WorkshopController {
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Invalid data has been passed.",
+                    description = "Workshop possui algum dado inválido.",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = ValidationErrorData.class)),

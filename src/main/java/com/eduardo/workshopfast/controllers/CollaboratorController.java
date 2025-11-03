@@ -11,11 +11,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 public interface CollaboratorController {
 
-    @Operation(summary = "Creates a new collaborator")
+    @Operation(summary = "Cria um novo colaborador no sistema")
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "201",
-                    description = "Collaborator registered successfully",
+                    description = "Colaborador registrado com sucesso.",
                     content = {
                             @Content(mediaType = "application/json",
                             schema = @Schema(implementation = SaveCollaboratorResponseDto.class)),
@@ -23,7 +23,7 @@ public interface CollaboratorController {
             ),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Invalid data has been passed.",
+                    description = "Algum dado passado foi inválido.",
                     content = {
                             @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = ValidationErrorData.class)),

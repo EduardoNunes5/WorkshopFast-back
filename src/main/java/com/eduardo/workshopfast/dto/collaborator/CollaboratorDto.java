@@ -1,16 +1,14 @@
 package com.eduardo.workshopfast.dto.collaborator;
 
-import com.eduardo.workshopfast.dto.workshop.WorkshopDto;
-import com.eduardo.workshopfast.dto.workshop.WorkshopWithAttendanceIdDto;
+import com.eduardo.workshopfast.dto.workshop_attendance.WorkshopAttendanceSummaryDto;
 import com.eduardo.workshopfast.entities.Collaborator;
-import com.eduardo.workshopfast.entities.WorkshopAttendance;
 
 import java.util.List;
 
 public record CollaboratorDto(
         Long id,
         String name,
-        List<WorkshopWithAttendanceIdDto> workshops
+        List<WorkshopAttendanceSummaryDto> workshops
 ) {
 
     public CollaboratorDto(Collaborator collaborator) {
@@ -18,7 +16,7 @@ public record CollaboratorDto(
                 collaborator.getId(),
                 collaborator.getName(),
                 collaborator.getWorkshops().stream()
-                        .map(workshopAttendance -> new WorkshopWithAttendanceIdDto(workshopAttendance.getWorkshop(), workshopAttendance.getId()))
+                        .map(workshopAttendance -> new WorkshopAttendanceSummaryDto(workshopAttendance.getWorkshop(), workshopAttendance.getId()))
                         .toList()
         );
     }
