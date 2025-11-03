@@ -34,9 +34,11 @@ http://localhost:8080/api-docs/swagger-ui/index.html
 
 Ao iniciar a aplicação, é criado um usuario de nível administrador com os campos:  
 username: admin  
-password: 123
+password: 123  
 
-endpoints de autenticação e cadastro:
+As chaves pública e privadas estão submetidas no github a criterio de desenvolvimento, em um repositório real, tais dados não devem ficar expostos.  
+
+endpoints de autenticação e cadastro:  
 `POST /api/auth/login`
 ```json
 {
