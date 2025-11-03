@@ -2,7 +2,7 @@ package com.eduardo.workshopfast.services;
 
 import com.eduardo.workshopfast.dto.workshop.SaveWorkshopRequestDto;
 import com.eduardo.workshopfast.dto.workshop.WorkshopDto;
-import com.eduardo.workshopfast.dto.workshop.WorkshopFilterDto;
+import com.eduardo.workshopfast.dto.workshop.filter.WorkshopFilterDto;
 import com.eduardo.workshopfast.entities.Workshop;
 
 import java.util.List;

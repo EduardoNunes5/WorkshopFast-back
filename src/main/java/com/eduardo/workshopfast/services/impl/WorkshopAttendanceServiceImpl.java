@@ -1,7 +1,7 @@
 package com.eduardo.workshopfast.services.impl;
 
 import com.eduardo.workshopfast.dto.collaborator.CollaboratorDetailsDto;
-import com.eduardo.workshopfast.dto.workshop.WorkshopFilterDto;
+import com.eduardo.workshopfast.dto.workshop.filter.WorkshopFilterDto;
 import com.eduardo.workshopfast.dto.workshop.WorkshopDetailsDto;
 import com.eduardo.workshopfast.dto.workshop_attendance.*;
 import com.eduardo.workshopfast.entities.Collaborator;

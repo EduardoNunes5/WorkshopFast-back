@@ -2,8 +2,8 @@ package com.eduardo.workshopfast.controllers.impl;
 
 import com.eduardo.workshopfast.controllers.WorkshopAttendanceController;
 import com.eduardo.workshopfast.dto.collaborator.CollaboratorDetailsDto;
-import com.eduardo.workshopfast.dto.workshop.WorkshopFilterDto;
-import com.eduardo.workshopfast.dto.workshop.WorkshopFilterDtoBuilder;
+import com.eduardo.workshopfast.dto.workshop.filter.WorkshopFilterDto;
+import com.eduardo.workshopfast.dto.workshop.filter.WorkshopFilterDtoBuilder;
 import com.eduardo.workshopfast.dto.workshop.WorkshopDetailsDto;
 import com.eduardo.workshopfast.dto.workshop_attendance.*;
 import com.eduardo.workshopfast.services.WorkshopAttendanceService;

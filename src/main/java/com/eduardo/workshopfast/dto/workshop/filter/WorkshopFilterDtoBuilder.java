@@ -1,4 +1,4 @@
-package com.eduardo.workshopfast.dto.workshop;
+package com.eduardo.workshopfast.dto.workshop.filter;
 
 import org.springframework.data.domain.Sort;
 
