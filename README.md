@@ -54,6 +54,12 @@ Clone o repositório.
    2. substitua o valor da variável `spring.profiles.active=dev` por `spring.profiles.active=test`
 3. Execute a aplicação
 
+# Segurança
+
+Implementei a segurança da aplicação na branch:
+* Feature/security
+* existe uma PR para ela:
+* https://github.com/EduardoNunes5/WorkshopFast-back/pull/15
 
 Documentação Swagger acessível através da rota:
 
