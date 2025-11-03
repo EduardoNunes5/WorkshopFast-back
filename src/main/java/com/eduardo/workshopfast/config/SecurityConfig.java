@@ -42,7 +42,11 @@ public class SecurityConfig {
             authorize
                     .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                     .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
-                    .anyRequest().authenticated();
+                    .requestMatchers(
+                            "/api-docs/**"
+                    ).permitAll()
+
+                            .anyRequest().authenticated();
         })
                 .csrf(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
