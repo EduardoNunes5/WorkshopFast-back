@@ -35,6 +35,10 @@ class WorkshopServiceImpl implements WorkshopService {
 
     @Override
     public List<Workshop> findByFilters(WorkshopFilterDto filter) {
-        return repository.findByCollaboratorNameAndRealizationDateAndWorkshopName(filter.collaboratorName(), filter.realizationDate(), filter.workshopName());
+        return repository.findByCollaboratorNameAndRealizationDateAndWorkshopName(
+                filter.collaboratorName(),
+                filter.realizationDate(),
+                filter.workshopName(),
+                filter.sort());
     }
 }

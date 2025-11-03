@@ -7,6 +7,7 @@ import com.eduardo.workshopfast.dto.workshop.WorkshopWithCollaboratorDto;
 import com.eduardo.workshopfast.dto.workshop_attendance.*;
 import com.eduardo.workshopfast.services.WorkshopAttendanceService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -46,7 +47,7 @@ public class WorkshopAttendanceController {
     }
 
     @GetMapping(value = "/atas", params = "workshopNome")
-    public List<WorkshopWithCollaboratorDto> findByWorkshopName(@RequestParam(name = "workshopNome") String workshopName) {
+    public List<WorkshopWithCollaboratorDto> findWorkshopsWithCollaboratorByWorkshopName(@RequestParam(name = "workshopNome") String workshopName) {
         WorkshopFilterDto filterDto = new WorkshopFilterDtoBuilder()
                 .setWorkshopName(workshopName)
                 .build();
@@ -54,7 +55,7 @@ public class WorkshopAttendanceController {
     }
 
     @GetMapping(value = "/atas", params = "data")
-    public List<WorkshopWithCollaboratorDto> findByRealizationDate(@RequestParam(name = "data") @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime realizationDate) {
+    public List<WorkshopWithCollaboratorDto> findWorkshopsWithCollaboratorByRealizationDate(@RequestParam(name = "data") @DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss") LocalDateTime realizationDate) {
         WorkshopFilterDto filterDto = new WorkshopFilterDtoBuilder()
                 .setRealizationDate(realizationDate)
                 .build();
@@ -63,9 +64,19 @@ public class WorkshopAttendanceController {
 
     // Optei por adicionar mais esse endpoint, pois o mockup do front traz um campo a mais para filtrar workshop por nome de colaboradores
     @GetMapping(value = "/atas", params = "colaboradorNome")
-    public List<WorkshopWithCollaboratorDto> findByCollaboratorName(@RequestParam(name = "colaboradorNome") String collaboratorName) {
+    public List<WorkshopWithCollaboratorDto> findWorkshopsWithCollaboratorByCollaboratorName(@RequestParam(name = "colaboradorNome") String collaboratorName) {
         WorkshopFilterDto filterDto = new WorkshopFilterDtoBuilder()
                 .setCollaboratorName(collaboratorName)
+                .build();
+        return service.findWorkshopWithCollaboratorsByFilters(filterDto);
+    }
+
+
+    // decidi criar esse endpoint retornando os workshops ordenados pelo nome para poder popular a tabela do front
+    @GetMapping("/v2/atas")
+    public List<WorkshopWithCollaboratorDto> findWorkshopsWithCollaboratorBySortedByName() {
+        WorkshopFilterDto filterDto = new WorkshopFilterDtoBuilder()
+                .setSort(Sort.by(Sort.Direction.ASC, "name"))
                 .build();
         return service.findWorkshopWithCollaboratorsByFilters(filterDto);
     }
