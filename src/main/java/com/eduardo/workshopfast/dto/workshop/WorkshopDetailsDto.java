@@ -36,6 +36,7 @@ public record WorkshopDetailsDto(
 
     // mapeia os colaboradores para cada ATA existente em um workshop
     private static List<CollaboratorWorkshopAttendanceDto> workshopAttendanceToDto(List<WorkshopAttendance> workshopAttendances) {
+        // achatando as listas de presença do workshop para poder retornar uma lista de colaboradores associados a cada uma delas
         return workshopAttendances.stream()
                 .flatMap(attendance ->
                         attendance.getCollaborators().stream()

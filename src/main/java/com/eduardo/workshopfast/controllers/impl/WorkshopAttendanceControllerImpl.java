@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -29,6 +30,7 @@ public class WorkshopAttendanceControllerImpl implements WorkshopAttendanceContr
     @Override
     @PostMapping("/atas")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAnyAuthority('SCOPE_ADMINISTRATOR')")
     public SaveWorkshopAttendanceResponseDto create(@RequestBody @Valid SaveWorkshopAttendanceRequestDto workshopAttendanceRequest) {
         return service.create(workshopAttendanceRequest);
     }
